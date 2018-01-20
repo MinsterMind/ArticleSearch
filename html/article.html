@@ -28,7 +28,7 @@
             var Article = Backbone.Model.extend()
             var Articles = Backbone.Collection.extend({
                 model: Article,
-                url: 'http://127.0.0.1:8000/feedly/search?query=' + searchKeyword
+                url: '/feedly/search?query=' + searchKeyword
             })
 
             var tableArticle = Backbone.View.extend({
