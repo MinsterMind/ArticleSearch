@@ -7,7 +7,7 @@ const Path = require('path')
 
 const routes = require('./routes/feedly')
 
-const port = process.env.port || 8000
+const port = process.env.PORT || 8000
 const server = new hapi.Server({
     connections: {
         routes: {
