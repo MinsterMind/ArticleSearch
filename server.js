@@ -7,6 +7,7 @@ const Path = require('path')
 
 const routes = require('./routes/feedly')
 
+const port = process.env.port || 8000
 const server = new hapi.Server({
     connections: {
         routes: {
@@ -35,7 +36,7 @@ server.register(Vision, function (err) {
 
 server.register(require('inert'), function (err) {})
 
-server.connection({port:8000})
+server.connection({port: port})
 
 
 server.route(routes)
