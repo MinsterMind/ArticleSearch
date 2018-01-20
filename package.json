@@ -1,0 +1,19 @@
+{
+  "name": "search",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "handlebars": "^4.0.11",
+    "hapi": "16.0.0",
+    "inert": "4.x.x",
+    "path": "^0.12.7",
+    "vision": "4.x.x"
+  }
+}

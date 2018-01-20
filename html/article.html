@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Articles from feedly</title>
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">-->
+    <script type = "text/javascript" src = "https://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.4/underscore-min.js"></script>
+    <link rel = "stylesheet"
+          href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel = "stylesheet"
+          href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    <script>
+        function loadArticles() {
+            $("#wrapper").html(" <div class=\"preloader-wrapper big active\">\n" +
+                "    <div class=\"spinner-layer spinner-blue-only\">\n" +
+                "      <div class=\"circle-clipper left\">\n" +
+                "        <div class=\"circle\"></div>\n" +
+                "      </div><div class=\"gap-patch\">\n" +
+                "        <div class=\"circle\"></div>\n" +
+                "      </div><div class=\"circle-clipper right\">\n" +
+                "        <div class=\"circle\"></div>\n" +
+                "      </div>\n" +
+                "    </div>\n" +
+                "  </div>")
+            var searchKeyword = $('#search_box').val()
+            var Article = Backbone.Model.extend()
+            var Articles = Backbone.Collection.extend({
+                model: Article,
+                url: 'http://127.0.0.1:8000/feedly/search?query=' + searchKeyword
+            })
+
+            var tableArticle = Backbone.View.extend({
+                el: $('#wrapper'),
+                initialize: function () {
+                    this.render()
+                },
+                render: function () {
+                    var that = this
+                    var articles = new Articles()
+                    articles.fetch({
+                        success: function (articles) {
+                            var variable = {articles:articles.models}
+                            var template = _.template($('#table_template').html())
+                            that.el.html(template(variable))
+                            $("#article_table").tablesorter();
+                        }
+                    })
+                }
+            })
+            new tableArticle()
+        }
+
+    </script>
+</head>
+<body>
+
+    <div type="container" style="margin-top: 35px">
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">search</i>
+                        <input id="search_box" type="text" data-length="10">
+                        <label for="search_box">Search</label>
+                    </div>
+                    <div class="valign-wrapper center-align col s6">
+                        <button class="btn waves-effect waves-light" onclick="loadArticles()" name="action">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" id = "wrapper">
+
+        </div>
+    </div>
+
+    <script type="text/template" id="table_template">
+        <table class="table bordered highlight responsive-table" id="article_table">
+            <thead>
+                <tr>
+                    <th>website</th>
+                    <th>title</th>
+                    <th>subscribers</th>
+                    <th>score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% _.each(articles, function (article) { %>
+                <tr>
+                    <td><%= article.get('website')%></td>
+                    <td><%= article.get('title')%></td>
+                    <td><%= article.get('subscribers')%></td>
+                    <td><%= article.get('score')%></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </script>
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.4/js/jquery.tablesorter.min.js"></script>
+    <script type = "text/javascript" src = "https://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
+    <script type = "text/javascript" src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>
