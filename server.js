@@ -65,4 +65,8 @@ server.route({
     }
 })
 
-server.start()
+server.start(function (err, data) {
+    if (!err)  {
+        console.log('server started on port '+ port)
+    }
+})
