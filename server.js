@@ -12,7 +12,7 @@ const server = new hapi.Server({
     connections: {
         routes: {
             files: {
-                relativeTo: Path.join(__dirname, 'javascript')
+                relativeTo: __dirname
             }
         }
     }
@@ -51,7 +51,7 @@ server.route({
 
 server.route({
     method:'GET',
-    path:'/article',
+    path:'/',
     handler: function (req, res) {
         res.view('article',{})
     }
@@ -59,9 +59,9 @@ server.route({
 
 server.route({
     method: 'GET',
-    path: '/javascript/search.js',
+    path: '/{path*}',
     handler: function (req, res) {
-        res.file('search.js')
+        res.file(req.params.path)
     }
 })
 
